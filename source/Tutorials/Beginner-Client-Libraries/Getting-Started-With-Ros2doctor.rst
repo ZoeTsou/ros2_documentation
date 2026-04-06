@@ -4,10 +4,10 @@
 
 .. _Ros2Doctor:
 
-Using ``ros2doctor`` to identify issues
+Using ``ros2 doctor`` to identify issues
 =======================================
 
-**Goal:** Identify issues in your ROS 2 setup using the ``ros2doctor`` tool.
+**Goal:** Identify issues in your ROS 2 setup using the ``ros2 doctor`` tool.
 
 **Tutorial level:** Beginner
 
@@ -20,15 +20,15 @@ Using ``ros2doctor`` to identify issues
 Background
 ----------
 
-When your ROS 2 setup is not running as expected, you can check its settings with the ``ros2doctor`` tool.
+When your ROS 2 setup is not running as expected, you can check its settings with the ``ros2 doctor`` tool.
 
-``ros2doctor`` checks all aspects of ROS 2, including platform, version, network, environment, running systems and more, and warns you about possible errors and reasons for issues.
+``ros2 doctor`` checks all aspects of ROS 2, including platform, version, network, environment, running systems and more, and warns you about possible errors and reasons for issues.
 
 Prerequisites
 -------------
 
-``ros2doctor`` is part of the ``ros2cli`` package.
-As long as you have ``ros2cli`` installed (which any normal install should have), you will be able to use ``ros2doctor``.
+``ros2 doctor`` is part of the ``ros2cli`` package.
+As long as you have ``ros2cli`` installed (which any normal install should have), you will be able to use ``ros2 doctor``.
 
 This tutorial uses :doc:`turtlesim <../Beginner-CLI-Tools/Introducing-Turtlesim/Introducing-Turtlesim>` to illustrate some of the examples.
 
@@ -38,7 +38,7 @@ Tasks
 1 Check your setup
 ^^^^^^^^^^^^^^^^^^
 
-Let's examine your general ROS 2 setup as a whole with ``ros2doctor``.
+Let's examine your general ROS 2 setup as a whole with ``ros2 doctor``.
 First, source ROS 2 in a new terminal, then enter the command:
 
 
@@ -59,16 +59,16 @@ If you do receive a warning, it will look something like this:
 
     <path>: <line>: UserWarning: <message>
 
-For example, ``ros2doctor`` will find this warning if you're using an unstable ROS 2 distribution:
+For example, ``ros2 doctor`` will find this warning if you're using an unstable ROS 2 distribution:
 
 .. code-block:: console
 
     UserWarning: Distribution <distro> is not fully supported or tested. To get more consistent features, download a stable version at https://index.ros.org/doc/ros2/Installation/
 
-If ``ros2doctor`` only finds warnings in your system, you will still receive the ``All <n> checks passed`` message.
+If ``ros2 doctor`` only finds warnings in your system, you will still receive the ``All <n> checks passed`` message.
 
 Most checks are categorized as warnings as opposed to errors.
-It's mostly up to you, the user, to determine the importance of the feedback ``ros2doctor`` returns.
+It's mostly up to you, the user, to determine the importance of the feedback ``ros2 doctor`` returns.
 If it does find a rare error in your setup, indicated by ``UserWarning: ERROR:``, the check is considered failed.
 
 You will see a message similar to the following list of issue feedback:
@@ -86,7 +86,7 @@ Errors should be addressed to ensure the system functions properly.
 ^^^^^^^^^^^^^^^^
 
 You can also examine a running ROS 2 system to identify possible causes for issues.
-To see ``ros2doctor`` working on a running system, let's run turtlesim, which has nodes actively communicating with each other.
+To see ``ros2 doctor`` working on a running system, let's run turtlesim, which has nodes actively communicating with each other.
 
 Start up the system by opening a new terminal, sourcing ROS 2, and entering the command:
 
@@ -100,8 +100,8 @@ Open another terminal and source ROS 2 to run the teleop controls:
 
     $ ros2 run turtlesim turtle_teleop_key
 
-Now run ``ros2doctor`` again in its own terminal.
-You will see the warnings and errors you had the last time you ran ``ros2doctor`` on your setup if you had any.
+Now run ``ros2 doctor`` again in its own terminal.
+You will see the warnings and errors you had the last time you ran ``ros2 doctor`` on your setup if you had any.
 Following those will be a couple new warnings relating to the system itself:
 
 .. code-block:: console
@@ -110,7 +110,7 @@ Following those will be a couple new warnings relating to the system itself:
     UserWarning: Publisher without subscriber detected on /turtle1/color_sensor.
     UserWarning: Publisher without subscriber detected on /turtle1/pose.
 
-It seems that the ``/turtlesim`` node publishes data to two topics that aren't being subscribed to, and ``ros2doctor`` thinks this could possibly lead to issues.
+It seems that the ``/turtlesim`` node publishes data to two topics that aren't being subscribed to, and ``ros2 doctor`` thinks this could possibly lead to issues.
 
 If you run commands to echo the ``/color_sensor`` and ``/pose`` topics, those warnings will disappear because the publishers will have subscribers.
 
@@ -124,19 +124,19 @@ You can try this by opening two new terminals while turtlesim is still running, 
 
     $ ros2 topic echo /turtle1/pose
 
-Then run ``ros2doctor`` in its terminal again.
+Then run ``ros2 doctor`` in its terminal again.
 The ``publisher without subscriber`` warnings will be gone.
 (Make sure to enter ``Ctrl+C`` in the terminals where you ran ``echo``).
 
-Now try exiting either the turtlesim window or quitting the teleop and running ``ros2doctor`` again.
+Now try exiting either the turtlesim window or quitting the teleop and running ``ros2 doctor`` again.
 You'll see more warnings indicating ``publisher without subscriber`` or ``subscriber without publisher`` for different topics, now that one node in the system isn't available.
 
-In a complex system with many nodes, ``ros2doctor`` would be invaluable for identifying possible reasons for communication issues.
+In a complex system with many nodes, ``ros2 doctor`` would be invaluable for identifying possible reasons for communication issues.
 
 3 Get a full report
 ^^^^^^^^^^^^^^^^^^^
 
-While ``ros2doctor`` will let you know warnings about your network, system, etc., running it with the ``--report`` argument will give you much more detail to help you analyze issues.
+While ``ros2 doctor`` will let you know warnings about your network, system, etc., running it with the ``--report`` argument will give you much more detail to help you analyze issues.
 
 You might want to use ``--report`` if you get a warning about your network setup and want to find out exactly what part of your configuration is causing the warning.
 
@@ -169,7 +169,7 @@ Which will return a list of information categorized into five groups:
   ...
 
 You can crosscheck the information here against the warnings you get when running ``ros2 doctor``.
-For example, if ``ros2doctor`` returned the warning (mentioned earlier) that your distribution is "not fully supported or tested", you might take a look at the ``ROS 2 INFORMATION`` section of the report:
+For example, if ``ros2 doctor`` returned the warning (mentioned earlier) that your distribution is "not fully supported or tested", you might take a look at the ``ROS 2 INFORMATION`` section of the report:
 
 .. code-block:: console
 
@@ -184,16 +184,16 @@ Here you can see the ``distribution status`` is ``prerelease``, which explains w
 Summary
 -------
 
-``ros2doctor`` will inform you of problems in your ROS 2 setup and running systems.
+``ros2 doctor`` will inform you of problems in your ROS 2 setup and running systems.
 You can get a deeper look at information behind those warnings by using the ``--report`` argument.
 
-Keep in mind, ``ros2doctor`` is not a debug tool; it won't help with errors in your code or on the implementation side of your system.
+Keep in mind, ``ros2 doctor`` is not a debug tool; it won't help with errors in your code or on the implementation side of your system.
 
 
 Related content
 ---------------
 
-`ros2doctor's README <https://github.com/ros2/ros2cli/tree/{REPOS_FILE_BRANCH}/ros2doctor>`__ will tell you more about different arguments.
+`ros2 doctor's README <https://github.com/ros2/ros2cli/tree/{REPOS_FILE_BRANCH}/ros2doctor>`__ will tell you more about different arguments.
 You might want to take a look around the ``ros2doctor`` repo as well, since it's fairly beginner friendly and a great place to get started with contributing.
 
 Next steps
